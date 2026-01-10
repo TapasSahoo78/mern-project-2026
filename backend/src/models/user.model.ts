@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import { IUser, UserRole } from '../@types/user.types';
 
 export interface IUserDocument extends IUser, Document {
@@ -33,17 +33,27 @@ const UserSchema = new Schema<IUserDocument>(
             enum: ['ADMIN', 'USER'],
             default: 'USER',
         },
+        isActive: {
+            type: Boolean,
+            default: true
+        },
+        googleId: String,
+        facebookId: String,
+        refreshTokens: [{
+            token: String,
+            expires: Date
+        }]
     },
     {
         timestamps: true,
     }
 );
 
-UserSchema.pre<IUserDocument>('save', async function () {
-    if (!this.isModified('password')) return;
+// UserSchema.index({ email: 1 });
 
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+UserSchema.pre('save', async function () {
+    if (!this.isModified('password')) return;
+    this.password = await bcrypt.hash(this.password, 10);
 });
 
 

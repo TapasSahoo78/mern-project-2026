@@ -1,5 +1,7 @@
 import PostModel from '../models/post.model';
+import CommentModel from '../models/comment.model';
 import { Types } from 'mongoose';
+import { getPagination } from '../utils/pagination';
 
 interface CreatePostInput {
     title: string;
@@ -15,9 +17,16 @@ export const createPost = async (data: CreatePostInput) => {
     return post;
 };
 
-export const getAllPosts = async () => {
+export const getAllPosts = async (
+    page = 1,
+    limit = 10
+) => {
+    const { skip } = getPagination(page, limit);
+
     return PostModel.find({ isDeleted: false })
-        .populate('author', 'name email role')
+        .skip(skip)
+        .limit(limit)
+        .populate('author', 'name email')
         .sort({ createdAt: -1 });
 };
 
@@ -25,13 +34,20 @@ export const getPostById = async (postId: string) => {
     const post = await PostModel.findOne({
         _id: postId,
         isDeleted: false,
-    }).populate('author', 'name email role');
+    }).populate('author', 'name email role').lean();
 
     if (!post) {
         throw new Error('Post not found');
     }
+    const comments = await CommentModel.find({ post: postId })
+        .populate('author', 'name')
+        .sort({ createdAt: -1 })
+        .lean();
 
-    return post;
+    return {
+        ...post,
+        comments,
+    };
 };
 
 export const updatePost = async (

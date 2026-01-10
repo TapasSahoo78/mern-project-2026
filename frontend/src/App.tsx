@@ -1,9 +1,7 @@
+import AppRoutes from './routes/AppRoutes';
+
 const App = () => {
-  return (
-    <div>
-      <h1>MERN Blog App</h1>
-    </div>
-  );
+  return <AppRoutes />;
 };
 
 export default App;

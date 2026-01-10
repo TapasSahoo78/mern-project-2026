@@ -43,6 +43,10 @@ const PostSchema = new Schema<IPostDocument>(
     }
 );
 
+PostSchema.index({ slug: 1 });
+PostSchema.index({ author: 1 });
+PostSchema.index({ isDeleted: 1 });
+
 PostSchema.pre<IPostDocument>('validate', function (next) {
     if (!this.isModified('title')) return;
 

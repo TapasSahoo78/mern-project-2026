@@ -28,6 +28,9 @@ const CommentSchema = new Schema<ICommentDocument>(
     }
 );
 
+CommentSchema.index({ post: 1 });
+CommentSchema.index({ author: 1 });
+
 const CommentModel = mongoose.model<ICommentDocument>(
     'Comment',
     CommentSchema

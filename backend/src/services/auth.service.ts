@@ -25,10 +25,12 @@ export const registerUser = async (data: RegisterInput) => {
 
 // inside loginUser
 export const loginUser = async (data: LoginInput) => {
-    const user = await UserModel.findOne({ email: data.email });
+    const user = await UserModel
+        .findOne({ email: data.email })
+        .select('+password');
 
     if (!user) {
-        throw new Error('Invalid credentials');
+        throw new Error('User not found');
     }
 
     const isMatch = await user.comparePassword(data.password);
@@ -40,6 +42,9 @@ export const loginUser = async (data: LoginInput) => {
         userId: user._id.toString(),
         role: user.role,
     };
+
+    console.log(payload);
+    
 
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);

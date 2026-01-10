@@ -29,12 +29,17 @@ export const createPostHandler = async (req: AuthRequest, res: Response) => {
     }
 };
 
-export const getPostsHandler = async (_req: AuthRequest, res: Response) => {
+export const getPostsHandler = async (req: Request, res: Response) => {
     try {
-        const posts = await getAllPosts();
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+
+        const posts = await getAllPosts(page, limit);
 
         res.status(200).json({
             success: true,
+            page,
+            limit,
             data: posts,
         });
     } catch (error: any) {

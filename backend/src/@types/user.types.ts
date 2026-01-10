@@ -5,4 +5,8 @@ export interface IUser {
   email: string;
   password: string;
   role: UserRole;
+  isActive: boolean;
+  googleId: string;
+  facebookId: string;
+  refreshTokens: any
 }
