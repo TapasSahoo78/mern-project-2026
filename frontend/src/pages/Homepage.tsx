@@ -44,9 +44,6 @@ const Header = () => {
       <Container maxWidth="lg">
         <Toolbar sx={{ justifyContent: 'space-between', py: 1 }}>
           <Box display="flex" alignItems="center" gap={2}>
-            {/* <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-              <MenuIcon />
-            </IconButton> */}
             <Typography
               variant="h5"
               component={RouterLink}

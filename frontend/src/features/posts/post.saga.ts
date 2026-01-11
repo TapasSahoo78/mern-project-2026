@@ -56,7 +56,7 @@ function* updatePostSaga(
     yield put(updatePostSuccess(res.data));
 
     // refresh list
-    yield put(fetchPostsRequest({}));
+    // yield put(fetchPostsRequest({}));
   } catch (error) {
     console.error(error);
   }

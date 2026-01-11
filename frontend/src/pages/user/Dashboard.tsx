@@ -10,6 +10,7 @@ import {
   Stack,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import ArticleIcon from '@mui/icons-material/Article';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/reduxHooks';
@@ -98,9 +99,52 @@ const Dashboard = () => {
                 >
                   Add Post
                 </Button>
+
+
+
               </Box>
             </CardContent>
           </Card>
+
+          {/* My Posts Card */}
+          <Card
+            variant="outlined"
+            sx={{
+              borderRadius: 3,
+              transition: '0.3s',
+              '&:hover': {
+                boxShadow: '0 12px 30px rgba(0,0,0,0.08)',
+              },
+            }}
+          >
+            <CardContent>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Box>
+                  <Typography variant="h6" fontWeight={600}>
+                    My Posts
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    View and manage all your published posts
+                  </Typography>
+                </Box>
+
+                <Button
+                  component={RouterLink}
+                  to="/posts/"
+                  variant="outlined"
+                  startIcon={<ArticleIcon />}
+                >
+                  View Posts
+                </Button>
+              </Box>
+            </CardContent>
+          </Card>
+
+
         </Stack>
       </Container>
     </>

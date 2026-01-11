@@ -45,12 +45,16 @@ const PostDetails = () => {
         if (id) dispatch(fetchPostRequest(id));
     }, [dispatch, id]);
 
-    if (loading || !selectedPost) {
+    if (loading) {
         return (
             <Box minHeight="70vh" display="flex" justifyContent="center" alignItems="center">
                 <CircularProgress />
             </Box>
         );
+    }
+
+    if (!selectedPost?.data) {
+        return <Typography>No post found</Typography>;
     }
 
     /* ===== COMMENT HANDLERS ===== */
@@ -71,7 +75,7 @@ const PostDetails = () => {
                 content: editingText,
             })
         );
-        dispatch(fetchPostRequest(selectedPost._id));
+        dispatch(fetchPostRequest(selectedPost.data._id));
         setEditingId(null);
         setEditingText('');
     };
@@ -84,7 +88,7 @@ const PostDetails = () => {
                     postId: selectedPost._id,
                 })
             );
-             dispatch(fetchPostRequest(selectedPost._id));
+            dispatch(fetchPostRequest(selectedPost.data._id));
         }
     };
 

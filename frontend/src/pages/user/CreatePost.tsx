@@ -73,11 +73,6 @@ const CreatePost = () => {
     }
   }, [isEditMode, selectedPost?.data]);
 
-
-  console.log(title);
-
-
-
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();

@@ -108,14 +108,6 @@ const Posts = () => {
 
       {/* ===== CONTENT ===== */}
       <Container maxWidth="lg" sx={{ py: 5 }}>
-        {/* SEARCH */}
-        <TextField
-          fullWidth
-          placeholder="Search posts..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ mb: 4 }}
-        />
 
         {/* LOADING */}
         {loading && (
@@ -216,17 +208,16 @@ const Posts = () => {
 
         {/* PAGINATION */}
         {totalPages > 1 && (
-          // <Box display="flex" justifyContent="center" mt={5}>
-          //   <Pagination
-          //     count={totalPages}
-          //     page={page}
-          //     onChange={(_, value) =>
-          //       dispatch(fetchPostsRequest({ page: value, search }))
-          //     }
-          //     color="primary"
-          //   />
-          // </Box>
-          <></>
+          <Box display="flex" justifyContent="center" mt={5}>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(_, value) =>
+                dispatch(fetchPostsRequest({ page: value, search }))
+              }
+              color="primary"
+            />
+          </Box>
         )}
       </Container>
     </>
