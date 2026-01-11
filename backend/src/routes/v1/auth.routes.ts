@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { register, login } from '../../controllers/auth.controller';
 import passport from 'passport';
+import { activityLogger } from '../../middleware/activity.middleware';
 
 const router = Router();
 
@@ -35,7 +36,7 @@ const router = Router();
  *       201:
  *         description: User registered
  */
-router.post('/register', register);
+router.post('/register', activityLogger('REGISTER'), register);
 
 /**
  * @swagger
@@ -59,7 +60,7 @@ router.post('/register', register);
  *       200:
  *         description: Login success
  */
-router.post('/login', login);
+router.post('/login', activityLogger('LOGIN'), login);
 
 /**
  * @swagger
@@ -70,6 +71,7 @@ router.post('/login', login);
  */
 router.get(
   '/google',
+  activityLogger('GOOGLE_LOGIN'),
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
@@ -99,6 +101,7 @@ router.get(
  */
 router.get(
   '/facebook',
+  activityLogger('FACEBOOK_LOGIN'),
   passport.authenticate('facebook', {
     scope: ['public_profile', 'email'],
   })

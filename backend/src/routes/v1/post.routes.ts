@@ -44,7 +44,7 @@ const router = Router();
  *         description: Posts list
  */
 router.get('/', (req, res, next) => {
-  req.headers.authorization ? authenticate(req, res, next) : next();
+    req.headers.authorization ? authenticate(req, res, next) : next();
 }, getPostsHandler);
 /**
  * @swagger
@@ -60,7 +60,7 @@ router.get('/', (req, res, next) => {
  *       200:
  *         description: Post details
  */
-router.get('/:id', getPostHandler);
+router.get('/:id', activityLogger('POST_DETAILS'), getPostHandler);
 
 // Protected
 /**
@@ -109,7 +109,7 @@ router.put('/:id', authenticate, activityLogger('DELETE_POST'), validate(updateP
  *       200:
  *         description: Post deleted
  */
-router.delete('/:id', authenticate, deletePostHandler);
+router.delete('/:id', activityLogger('DELETE_POST'), authenticate, deletePostHandler);
 
 export default router;
 

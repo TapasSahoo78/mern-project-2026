@@ -11,6 +11,7 @@ import {
     createCommentSchema,
     updateCommentSchema,
 } from '../../validations/comment.validation';
+import { activityLogger } from '../../middleware/activity.middleware';
 
 const router = Router();
 
@@ -37,7 +38,7 @@ const router = Router();
  *         description: Comments list
  */
 
-router.get('/:postId', getCommentsHandler);
+router.get('/:postId',activityLogger('COMMENT'), getCommentsHandler);
 
 // Protected
 /**
@@ -59,7 +60,7 @@ router.get('/:postId', getCommentsHandler);
  *       201:
  *         description: Comment added
  */
-router.post('/:postId', authenticate, validate(createCommentSchema), createCommentHandler);
+router.post('/:postId',activityLogger('ADD_COMMENT'), authenticate, validate(createCommentSchema), createCommentHandler);
 
 /**
  * @swagger
@@ -69,7 +70,7 @@ router.post('/:postId', authenticate, validate(createCommentSchema), createComme
  *     summary: Update comment
  *     security: [bearerAuth: []]
  */
-router.put('/:commentId', authenticate, validate(updateCommentSchema), updateCommentHandler);
+router.put('/:commentId',activityLogger('UPDATE_COMMENT'), authenticate, validate(updateCommentSchema), updateCommentHandler);
 /**
  * @swagger
  * /comments/{commentId}:
@@ -78,6 +79,6 @@ router.put('/:commentId', authenticate, validate(updateCommentSchema), updateCom
  *     summary: Delete comment
  *     security: [bearerAuth: []]
  */
-router.delete('/:commentId', authenticate, deleteCommentHandler);
+router.delete('/:commentId',activityLogger('DELETE_COMMENT'), authenticate, deleteCommentHandler);
 
 export default router;

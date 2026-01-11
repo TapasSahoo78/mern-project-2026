@@ -71,7 +71,7 @@ const PostDetails = () => {
                 content: editingText,
             })
         );
-
+        dispatch(fetchPostRequest(selectedPost._id));
         setEditingId(null);
         setEditingText('');
     };
@@ -84,7 +84,7 @@ const PostDetails = () => {
                     postId: selectedPost._id,
                 })
             );
-
+             dispatch(fetchPostRequest(selectedPost._id));
         }
     };
 
