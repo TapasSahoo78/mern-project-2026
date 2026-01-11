@@ -6,7 +6,10 @@ import routes from './routes';
 import { errorHandler } from './middleware/error.middleware';
 import { requestLogger } from './middleware/logger.middleware';
 
-/* 🔥 IMPORT STRATEGIES FIRST (TOP LEVEL) */
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger';
+
+/* IMPORT STRATEGIES FIRST (TOP LEVEL) */
 import './config/passport.google';
 import './config/passport.facebook';
 
@@ -30,6 +33,8 @@ app.get('/', (_req, res) => {
 
 // ===== ROUTES =====
 app.use('/api', routes);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ===== ERROR HANDLER =====
 app.use(errorHandler);
