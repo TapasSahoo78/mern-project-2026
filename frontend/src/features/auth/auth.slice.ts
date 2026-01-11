@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { AuthState, User } from './auth.types';
+import { jwtDecode } from "jwt-decode";
 
 const storedAuth = localStorage.getItem('auth');
 
@@ -52,15 +53,38 @@ const authSlice = createSlice({
             state.user = action.payload.user;
             state.accessToken = action.payload.accessToken;
             state.refreshToken = action.payload.refreshToken;
-            localStorage.setItem(
-                'auth',
-                JSON.stringify(action.payload)
-            );
+            localStorage.setItem('auth', JSON.stringify(action.payload));
         },
 
         authFailure(state, action: PayloadAction<string | null>) {
             state.loading = false;
             state.error = action.payload;
+        },
+        /* ===== OAUTH LOGIN (GOOGLE / FACEBOOK) ===== */
+        oauthLoginSuccess(
+            state,
+            action: PayloadAction<{ accessToken: string }>
+        ) {
+            const { accessToken } = action.payload;
+
+            const decoded: any = jwtDecode(accessToken);
+
+            const authData: any = {
+                user: {
+                    _id: decoded.id,
+                    role: decoded.role,
+                },
+                accessToken,
+                refreshToken: null,
+            };
+
+            state.user = authData.user;
+            state.accessToken = accessToken;
+            state.refreshToken = null;
+            state.isAuthenticated = true;
+            state.loading = false;
+
+            localStorage.setItem('auth', JSON.stringify(authData));
         },
 
         logout(state) {
@@ -80,6 +104,7 @@ export const {
     registerRequest,
     authSuccess,
     authFailure,
+    oauthLoginSuccess,
     logout,
 } = authSlice.actions;
 

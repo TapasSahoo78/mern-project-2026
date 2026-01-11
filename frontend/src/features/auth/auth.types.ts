@@ -1,8 +1,8 @@
 export interface User {
   id: string;
-  name: string;
-  email: string;
-  role: 'ADMIN' | 'USER';
+  name?: string;
+  email?: string;
+  role: 'USER' | 'ADMIN';
 }
 
 export interface AuthState {

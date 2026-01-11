@@ -1,30 +1,37 @@
 import express from 'express';
 import cors from 'cors';
+import passport from 'passport';
+
 import routes from './routes';
 import { errorHandler } from './middleware/error.middleware';
 import { requestLogger } from './middleware/logger.middleware';
 
+/* 🔥 IMPORT STRATEGIES FIRST (TOP LEVEL) */
+import './config/passport.google';
+import './config/passport.facebook';
 
 const app = express();
 
-// Middleware
+// ===== MIDDLEWARE =====
 app.use(cors());
 app.use(express.json());
-// logger
 app.use(requestLogger);
 
-// Routes
+/* 🔥 PASSPORT MUST BE INITIALIZED BEFORE ROUTES */
+app.use(passport.initialize());
+
+// ===== HEALTH CHECK =====
 app.get('/', (_req, res) => {
-    res.status(200).json({
-        success: true,
-        message: 'API is running'
-    });
+  res.status(200).json({
+    success: true,
+    message: 'API is running',
+  });
 });
 
-// after middleware
+// ===== ROUTES =====
 app.use('/api', routes);
 
-// error middleware
+// ===== ERROR HANDLER =====
 app.use(errorHandler);
 
 export default app;

@@ -6,6 +6,7 @@ export interface IUser {
   password: string;
   role: UserRole;
   isActive: boolean;
+  provider: string;
   googleId: string;
   facebookId: string;
   refreshTokens: any

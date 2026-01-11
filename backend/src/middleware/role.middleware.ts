@@ -1,22 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserRole } from '../@types/user.types';
+import { AuthRequest } from '../@types/auth-request';
 
-export const authorizeRoles = (...allowedRoles: UserRole[]) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        // if (!req.user) {
-        //     return res.status(401).json({
-        //         success: false,
-        //         message: 'Unauthorized',
-        //     });
-        // }
+export const authorizeRoles =
+    (...roles: string[]) =>
+        (req: Request, res: Response, next: NextFunction): void => {
+            const auth = (req as AuthRequest).auth;
 
-        // if (!allowedRoles.includes(req.user.role)) {
-        //     return res.status(403).json({
-        //         success: false,
-        //         message: 'Access denied',
-        //     });
-        // }
+            if (!auth || !roles.includes(auth.role!)) {
+                res.status(403).json({ message: 'Forbidden' });
+                return;
+            }
 
-        next();
-    };
-};
+            next();
+        };
+

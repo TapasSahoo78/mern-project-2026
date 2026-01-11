@@ -10,6 +10,7 @@ import {
     updateUserRoleHandler,
     deleteUserHandler,
     deletePostByAdminHandler,
+    getCommentsHandler,
     deleteCommentByAdminHandler,
 } from '../../controllers/admin.controller';
 
@@ -45,6 +46,13 @@ router.delete(
     authenticate,
     authorizeRoles('ADMIN'),
     deletePostByAdminHandler
+);
+
+router.get(
+    '/comments',
+    authenticate,
+    authorizeRoles('ADMIN'),
+    getCommentsHandler
 );
 
 router.delete(

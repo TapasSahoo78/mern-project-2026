@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -124,25 +125,31 @@ const AdminDashboard = () => {
 
         <Grid container spacing={4} mb={6}>
           <Grid size={{ xs: 12, md: 4 }}>
+            <RouterLink to="/admin/users" style={{ textDecoration: 'none' }}>
             <StatCard
               title="Total Users"
               value={stats.users}
               icon={<PeopleIcon fontSize="large" />}
             />
+            </RouterLink>
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>
+            <RouterLink to="/admin/posts" style={{ textDecoration: 'none' }}>
             <StatCard
               title="Total Posts"
               value={stats.posts}
               icon={<ArticleIcon fontSize="large" />}
             />
+            </RouterLink>
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>
+            <RouterLink to="/admin/comments" style={{ textDecoration: 'none' }}>
             <StatCard
               title="Total Comments"
               value={stats.comments}
               icon={<CommentIcon fontSize="large" />}
             />
+            </RouterLink>
           </Grid>
         </Grid>
 

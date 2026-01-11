@@ -43,9 +43,6 @@ export const loginUser = async (data: LoginInput) => {
         role: user.role,
     };
 
-    console.log(payload);
-    
-
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 

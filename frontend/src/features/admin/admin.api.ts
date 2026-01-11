@@ -9,6 +9,13 @@ export const fetchDashboardStatsApi = async (token: string) => {
   return res.data;
 };
 
+export const fetchAllCommentsApi = async (token: string) => {
+  const res = await axios.get(`${API_URL}/v1/admin/comments`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
+
 export const fetchUsersApi = async (token: string) => {
   const res = await axios.get(`${API_URL}/v1/admin/users`, {
     headers: { Authorization: `Bearer ${token}` },

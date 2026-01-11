@@ -25,7 +25,7 @@ export const authenticate = (
       process.env.JWT_ACCESS_SECRET as string
     ) as JwtPayload;
 
-    req.user = {
+    (req as AuthRequest).auth = {
       userId: decoded.userId,
       role: decoded.role,
     };

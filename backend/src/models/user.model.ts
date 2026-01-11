@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { IUser, UserRole } from '../@types/user.types';
+import { any } from 'zod';
 
 export interface IUserDocument extends IUser, Document {
     comparePassword(password: string): Promise<boolean>;
@@ -13,7 +14,6 @@ const UserSchema = new Schema<IUserDocument>(
             required: true,
             trim: true,
         },
-
         email: {
             type: String,
             required: true,
@@ -21,13 +21,13 @@ const UserSchema = new Schema<IUserDocument>(
             lowercase: true,
             trim: true,
         },
-
         password: {
             type: String,
-            required: true,
             minlength: 6,
+            required: function (this: any): boolean {
+                return this.provider === 'local';
+            },
         },
-
         role: {
             type: String,
             enum: ['ADMIN', 'USER'],
@@ -37,8 +37,23 @@ const UserSchema = new Schema<IUserDocument>(
             type: Boolean,
             default: true
         },
-        googleId: String,
-        facebookId: String,
+        /* 🔐 AUTH PROVIDER */
+        provider: {
+            type: String,
+            enum: ['local', 'google', 'facebook'],
+            default: 'local',
+        },
+
+        /* 🔑 OAUTH IDS */
+        googleId: {
+            type: String,
+            default: null,
+        },
+
+        facebookId: {
+            type: String,
+            default: null,
+        },
         refreshTokens: [{
             token: String,
             expires: Date

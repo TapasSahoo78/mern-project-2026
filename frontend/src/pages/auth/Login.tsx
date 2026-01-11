@@ -79,6 +79,7 @@ const Login = () => {
               variant="outlined"
               startIcon={<GoogleIcon />}
               sx={{ borderRadius: 2 }}
+              onClick={() => window.location.href = 'http://localhost:5000/api/v1/auth/google'}
             >
               Google
             </Button>
@@ -87,6 +88,7 @@ const Login = () => {
               variant="outlined"
               startIcon={<FacebookIcon />}
               sx={{ borderRadius: 2 }}
+               onClick={() => window.location.href = 'http://localhost:5000/api/v1/auth/facebook'}
             >
               Facebook
             </Button>

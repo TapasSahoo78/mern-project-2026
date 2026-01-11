@@ -18,6 +18,10 @@ export const getAllUsers = async () => {
     return UserModel.find().select('-password').sort({ createdAt: -1 });
 };
 
+export const getAllComments = async () => {
+    return CommentModel.find().sort({ createdAt: -1 });
+};
+
 export const updateUserRole = async (userId: string, role: 'ADMIN' | 'USER') => {
     const user = await UserModel.findById(userId);
 

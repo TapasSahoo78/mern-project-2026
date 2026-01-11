@@ -5,9 +5,9 @@ export const activityLogger = (
   action: string
 ) => {
   return (req: AuthRequest, _res: Response, next: NextFunction) => {
-    if (req.user) {
+    if (req.auth) {
       console.log(
-        `User ${req.user.userId} performed action: ${action}`
+        `User ${req.auth.userId} performed action: ${action}`
       );
     }
     next();

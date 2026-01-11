@@ -17,7 +17,9 @@ import {
 const router = Router();
 
 // Public
-router.get('/', getPostsHandler);
+router.get('/', (req, res, next) => {
+  req.headers.authorization ? authenticate(req, res, next) : next();
+}, getPostsHandler);
 router.get('/:id', getPostHandler);
 
 // Protected

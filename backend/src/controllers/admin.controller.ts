@@ -7,9 +7,11 @@ import {
     getAllUsers,
     updateUserRole,
     deleteUser,
+    getAllComments
 } from '../services/admin.service';
+import { AuthRequest } from '../@types/auth-request';
 
-export const getDashboardHandler = async (_req: Request, res: Response) => {
+export const getDashboardHandler = async (_req: AuthRequest, res: Response) => {
     try {
         const stats = await getDashboardStats();
 
@@ -25,7 +27,7 @@ export const getDashboardHandler = async (_req: Request, res: Response) => {
     }
 };
 
-export const getUsersHandler = async (_req: Request, res: Response) => {
+export const getUsersHandler = async (_req: AuthRequest, res: Response) => {
     try {
         const users = await getAllUsers();
 
@@ -41,7 +43,23 @@ export const getUsersHandler = async (_req: Request, res: Response) => {
     }
 };
 
-export const updateUserRoleHandler = async (req: Request, res: Response) => {
+export const getCommentsHandler = async (_req: AuthRequest, res: Response) => {
+    try {
+        const comments = await getAllComments();
+
+        res.status(200).json({
+            success: true,
+            data: comments,
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+export const updateUserRoleHandler = async (req: AuthRequest, res: Response) => {
     try {
         const user = await updateUserRole(req.params.userId, req.body.role);
 
@@ -58,7 +76,7 @@ export const updateUserRoleHandler = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteUserHandler = async (req: Request, res: Response) => {
+export const deleteUserHandler = async (req: AuthRequest, res: Response) => {
     try {
         await deleteUser(req.params.userId);
 
@@ -75,7 +93,7 @@ export const deleteUserHandler = async (req: Request, res: Response) => {
 };
 
 export const deletePostByAdminHandler = async (
-    req: Request,
+    req: AuthRequest,
     res: Response
 ) => {
     try {
@@ -94,7 +112,7 @@ export const deletePostByAdminHandler = async (
 };
 
 export const deleteCommentByAdminHandler = async (
-    req: Request,
+    req: AuthRequest,
     res: Response
 ) => {
     try {

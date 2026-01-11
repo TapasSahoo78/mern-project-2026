@@ -13,7 +13,7 @@ export const createPostHandler = async (req: AuthRequest, res: Response) => {
         const post = await createPost({
             title: req.body.title,
             content: req.body.content,
-            author: req?.user!.userId as any,
+            author: req.auth?.userId as any,
         });
 
         res.status(201).json({
@@ -29,12 +29,12 @@ export const createPostHandler = async (req: AuthRequest, res: Response) => {
     }
 };
 
-export const getPostsHandler = async (req: Request, res: Response) => {
+export const getPostsHandler = async (req: AuthRequest, res: Response) => {
     try {
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 10;
 
-        const posts = await getAllPosts(page, limit);
+        const posts = await getAllPosts(req.user as any, page, limit);
 
         res.status(200).json({
             success: true,
@@ -70,8 +70,8 @@ export const updatePostHandler = async (req: AuthRequest, res: Response) => {
     try {
         const post = await updatePost(
             req.params.id,
-            req.user!.userId,
-            req.user!.role as any,
+            req.auth!.userId,
+            req.auth!.role as any,
             req.body
         );
 
@@ -92,8 +92,8 @@ export const deletePostHandler = async (req: AuthRequest, res: Response) => {
     try {
         await softDeletePost(
             req.params.id,
-            req.user!.userId,
-            req.user!.role as any
+            req.auth!.userId,
+            req.auth!.role as any
         );
 
         res.status(200).json({

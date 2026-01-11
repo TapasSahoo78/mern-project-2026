@@ -49,7 +49,9 @@ const commentSlice = createSlice({
         commentId: string;
         postId: string;
       }>
-    ) { },
+    ) { 
+      
+    },
   }
 });
 

@@ -12,7 +12,7 @@ export const createCommentHandler = async (req: AuthRequest, res: Response) => {
     const comment = await createComment({
       content: req.body.content,
       postId: req.params.postId,
-      authorId: req.user!.userId,
+      authorId: req.auth!.userId,
     });
 
     res.status(201).json({
@@ -48,8 +48,8 @@ export const updateCommentHandler = async (req: AuthRequest, res: Response) => {
   try {
     const comment = await updateComment(
       req.params.commentId,
-      req.user!.userId,
-      req.user!.role as any,
+      req.auth!.userId,
+      req.auth!.role as any,
       req.body.content
     );
 
@@ -70,8 +70,8 @@ export const deleteCommentHandler = async (req: AuthRequest, res: Response) => {
   try {
     await deleteComment(
       req.params.commentId,
-      req.user!.userId,
-      req.user!.role as any
+      req.auth!.userId,
+      req.auth!.role as any
     );
 
     res.status(200).json({

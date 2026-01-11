@@ -26,27 +26,27 @@ export const createCommentApi = async (
 };
 
 export const updateCommentApi = async (
-  payload: { id: string; content: string },
-  token: string
+    payload: { id: string; content: string },
+    token: string
 ) => {
-  const response = await axios.put(
-    `${API_URL}/v1/comments/${payload.id}`,
-    { content: payload.content },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+    const response = await axios.put(
+        `${API_URL}/v1/comments/${payload.id}`,
+        { content: payload.content },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
 
-  return response.data;
+    return response.data;
 };
 
 
 export const deleteCommentApi = async (
     commentId: string,
     token: string
-) => {  
+) => {
     const response = await axios.delete(
         `${API_URL}/v1/comments/${commentId}`,
         {

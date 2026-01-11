@@ -1,5 +1,8 @@
 import { call, put, takeLatest, select } from 'redux-saga/effects';
 import {
+  fetchAllCommentsRequest,
+  fetchAllCommentsSuccess,
+  fetchAllCommentsFailure,
   adminStart,
   fetchStatsRequest,
   fetchStatsSuccess,
@@ -9,10 +12,23 @@ import {
   adminFailure,
 } from './admin.slice';
 import {
+  fetchAllCommentsApi,
   fetchDashboardStatsApi,
   fetchUsersApi,
   updateUserRoleApi,
 } from './admin.api';
+import { data } from 'react-router-dom';
+
+function* fetchAllCommentsSaga(action: any): Generator<any, any, any> {
+  try {
+    const token = yield select((state: any) => state.auth.accessToken);
+    const response = yield call(fetchAllCommentsApi, token);
+    
+    yield put(fetchAllCommentsSuccess(response.data));
+  } catch (error) {
+    yield put(fetchAllCommentsFailure('Failed to load comments'));
+  }
+}
 
 function* fetchStatsSaga(): Generator<any, any, any> {
   try {
@@ -47,6 +63,7 @@ function* updateUserRoleSaga(action: any): Generator<any, any, any> {
 }
 
 export function* adminSaga() {
+  yield takeLatest(fetchAllCommentsRequest.type, fetchAllCommentsSaga);
   yield takeLatest(fetchStatsRequest.type, fetchStatsSaga);
   yield takeLatest(fetchUsersRequest.type, fetchUsersSaga);
   yield takeLatest(updateUserRoleRequest.type, updateUserRoleSaga);

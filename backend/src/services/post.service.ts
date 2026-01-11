@@ -18,12 +18,21 @@ export const createPost = async (data: CreatePostInput) => {
 };
 
 export const getAllPosts = async (
+    user?: { userId: string; role?: string },
     page = 1,
     limit = 10
 ) => {
     const { skip } = getPagination(page, limit);
+    const filter: any = {
+        isDeleted: false,
+    };
 
-    return PostModel.find({ isDeleted: false })
+    // 🔐 ROLE-BASED FILTER
+    if (user && user.role === 'USER') {
+        filter.author = user.userId;
+    }
+
+    return PostModel.find(filter)
         .skip(skip)
         .limit(limit)
         .populate('author', 'name email')

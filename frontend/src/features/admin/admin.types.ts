@@ -14,6 +14,7 @@ export interface AdminUser {
 export interface AdminState {
     stats: DashboardStats | null;
     users: AdminUser[];
+    comments:[],
     loading: boolean;
     error: string | null;
 }

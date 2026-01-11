@@ -5,6 +5,7 @@ import type { AdminState, DashboardStats, AdminUser } from './admin.types';
 const initialState: AdminState = {
     stats: null,
     users: [],
+    comments: [],
     loading: false,
     error: null,
 };
@@ -22,6 +23,18 @@ const adminSlice = createSlice({
         fetchStatsSuccess(state, action: PayloadAction<DashboardStats>) {
             state.loading = false;
             state.stats = action.payload;
+        },
+
+        fetchAllCommentsRequest() { },
+
+        fetchAllCommentsSuccess(state, action) {
+            state.loading = false;
+            state.comments = action.payload;
+        },
+
+        fetchAllCommentsFailure(state, action: PayloadAction<string>) {
+            state.loading = false;
+            state.error = action.payload;
         },
 
         fetchUsersRequest() { },
@@ -46,6 +59,9 @@ export const {
     adminStart,
     fetchStatsRequest,
     fetchStatsSuccess,
+    fetchAllCommentsRequest,
+    fetchAllCommentsSuccess,
+    fetchAllCommentsFailure,
     fetchUsersRequest,
     fetchUsersSuccess,
     updateUserRoleRequest,
